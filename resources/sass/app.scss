@@ -5,9 +5,28 @@
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+//@import '~bootstrap/scss/bootstrap';
+
+@import 'box-gradient-stroke';
 
 .navbar-laravel {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+}
+
+.shop-item-gradient {
+    $borderW: 4;
+    box-shadow: box-gradient-stroke($borderW, #696969, #c6c6c6);
+    margin: $borderW * 1px;
 }

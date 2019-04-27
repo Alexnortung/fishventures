@@ -1,0 +1,41 @@
+@function box-gradient-stroke ($width: 1, $outer-color: #000, $inner-color: #fff) {
+    $stroke: ();
+
+    $startRed: red($outer-color);
+    $startGreen: green($outer-color);
+    $startBlue: blue($outer-color);
+    
+
+    $redDiff: red($inner-color) - $startRed;
+    $greenDiff: green($inner-color) - $startGreen;
+    $blueDiff: blue($inner-color) - $startBlue;
+
+    @for $i from 0 through $width {
+        $newRed: $startRed + ($redDiff * $i / $width);
+        $newGreen: $startGreen + ($greenDiff * $i / $width);
+        $newBlue: $startBlue + ($blueDiff * $i / $width);
+
+        @debug $newBlue;
+
+        $newColor: rgb($newRed, $newGreen, $newBlue);
+
+        @for $j from 1 through 4 {
+            $x: $i;
+            $y: $i;
+            @if $j % 2 == 0 {
+                $x: $i * -1;
+            }
+
+            @if $j >= 3 {
+                $y: $i * -1;
+            }
+
+            $x: $x * 1px;
+            $y: $y * 1px;
+
+            $stroke: append($stroke, $x $y $newColor, comma);
+        }
+    }
+
+    @return $stroke;
+}

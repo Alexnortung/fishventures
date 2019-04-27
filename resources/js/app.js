@@ -21,6 +21,9 @@ window.Vue = require('vue');
 
 Vue.component('game-component', require('./components/GameComponent.vue').default);
 Vue.component('shop-header', require('./components/ShopHeader.vue'));
+Vue.component('shop-wrapper', require('./components/ShopWrapper.vue'));
+Vue.component('shop-item', require('./components/ShopItem.vue'));
+Vue.component('upgrade-item', require('./components/UpgradeItem.vue'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
