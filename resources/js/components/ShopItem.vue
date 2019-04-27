@@ -23,6 +23,20 @@ export default {
     .shop-item {
         background: linear-gradient(to right, #1d1d1d, #6F6F6F);
         color: #fff;
+
+        span.text {
+            padding-left: 10px;
+
+        }
+        .right {
+            span.text {
+                padding-left: 0;
+                padding-right: 10px;
+
+            }
+        }
+
+
     }
 
     .w100 {

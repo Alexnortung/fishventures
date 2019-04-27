@@ -26,7 +26,13 @@ html, body {
 }
 
 .shop-item-gradient {
-    $borderW: 4;
-    box-shadow: box-gradient-stroke($borderW, #696969, #c6c6c6);
+    $inner-color: #696969;
+    $borderW: 5;
+    box-shadow: box-gradient-stroke($borderW, $inner-color, #c6c6c6);
     margin: $borderW * 1px;
+
+    img.shop-item-icon{
+        border-right: $borderW * 1px solid $inner-color;
+
+    }
 }
