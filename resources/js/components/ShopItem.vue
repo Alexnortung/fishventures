@@ -23,6 +23,7 @@ export default {
     .shop-item {
         background: linear-gradient(to right, #1d1d1d, #6F6F6F);
         color: #fff;
+        height: 64px;
 
         span.text {
             padding-left: 10px;
@@ -63,6 +64,7 @@ export default {
 
     .shop-item-icon {
         width: 64px;
+        height: 64px;
         display: inline-block;
         vertical-align: middle;
     }

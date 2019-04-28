@@ -23,14 +23,42 @@ import ShopItem from "./ShopItem.vue";
 import UpgradeItem from "./UpgradeItem.vue";
 
 let shopItemId = 0;
+const unknownImgName = "unknown";
 
 class ShopItemObj {
-    constructor(name, owned, imgName) {
-        this.name = name;
-        this.owned = owned;
+    constructor(name, imgName) {
+        this._name = name;
+        this._owned = 0;
         this.id = shopItemId;
-        this.imgName = imgName;
+        this._imgName = imgName;
+        this.notVisibleImgName = unknownImgName;
         shopItemId++;
+
+        this.isVisible = false;
+    }
+
+    get name() {
+        if (this.isVisible) {
+            return this._name;
+        } else {
+            return "??????";
+        }
+    }
+
+    get owned() {
+        if (this.isVisible) {
+            return this._owned;
+        } else {
+            return 0;
+        }
+    }
+
+    get imgName() {
+        if (this.isVisible) {
+            return this._imgName;
+        } else {
+            return this.notVisibleImgName;
+        }
     }
 }
 
@@ -39,9 +67,9 @@ export default {
     data() {
 
         const items = [
-            new ShopItemObj("Gin T", 0, "gin-t"),
-            new ShopItemObj("Ripper", 0, "ripper"),
-            new ShopItemObj("Rixo", 0, "rixo"),
+            new ShopItemObj("Gin T", "gin-t"),
+            new ShopItemObj("Ripper", "ripper"),
+            new ShopItemObj("Rixo", "rixo"),
         ];        
 
         return {
@@ -55,9 +83,12 @@ export default {
     computed: {
         visibleItems() {
 
-            const ret = this.items.slice(0, this.visibleItemNum);
+            for (let i = 0; i < this.items.length; i++) {
+                const item = this.items[i];
+                item.isVisible = i < this.visibleItemNum;
+            }
 
-            return ret;
+            return this.items;
         }
     },
 
