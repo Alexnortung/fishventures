@@ -70,7 +70,15 @@ export default {
             new ShopItemObj("Gin T", "gin-t"),
             new ShopItemObj("Ripper", "ripper"),
             new ShopItemObj("Rixo", "rixo"),
-        ];        
+            new ShopItemObj("Igor", "igor"),
+            new ShopItemObj("Jaeger", "jaeger"),
+            new ShopItemObj("Steven", "steven"),
+            new ShopItemObj("Blu", "blu"),
+            new ShopItemObj("Enigma", "enigma"),
+            new ShopItemObj("Bartholomew", "bartholomew"),
+            new ShopItemObj("Zanuchi", "zanuchi"),
+            new ShopItemObj("Beaumont", "beaumont"),
+        ];
 
         return {
             money: 0,
