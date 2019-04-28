@@ -1,6 +1,6 @@
 <template lang="pug">
     .shop-header
-        span.shop-header-text 
+        div.shop-header-text 
             <slot></slot>
 </template>
 
@@ -9,8 +9,12 @@
         width: 100%;
 
         text-align: center;
-        font-size: 28px;
+        font-size: 36px;
         display: table-row;
 
+    }
+
+    .shop-header-text {
+        padding: 5px;
     }
 </style>

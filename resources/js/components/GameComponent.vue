@@ -112,11 +112,18 @@ export default {
     #clicker-area {
         display: table-cell;
         max-width: 100%;
+
+        background: linear-gradient(to top, #2376ba, #bff8ff)
     }
     
     #shop-area {
         max-width: 100%;
-        width: 300px;
+        width: 320px;
         display: table-cell;
+        padding-left: 15px;
+
+        $outer: #877152;
+        $inner: #c79b65;
+        background: linear-gradient(to right, $outer, $inner, $outer);
     }
 </style>
