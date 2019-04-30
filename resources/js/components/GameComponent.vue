@@ -6,21 +6,37 @@
 
 
         #shop-area
-            <shop-wrapper :headerName="'Upgrades'">
-                <upgrade-item></upgrade-item>
-            </shop-wrapper>
+            //- <shop-wrapper :headerName="'Upgrades'">
+            //-     <upgrade-item></upgrade-item>
+            //- </shop-wrapper>
             
-            <shop-wrapper :headerName="'Shop'">
-                <shop-item v-for="item in visibleItems" v-bind:name="item.name" v-bind:owned="item.owned" v-bind:imgName="item.imgName" v-bind:key="item.id"></shop-item>
+            .shop-wrapper
+                shop-header.shop-header Shop
+                .shop-items
+                    .item-items-item-wrapper(
+                        @click="buy(item)"
+                        v-for="item in visibleItems" 
+                        )
+
+                        shop-item(
+                            
+                            v-bind:name="item.name" 
+                            v-bind:owned="item.owned" 
+                            v-bind:imgName="item.imgName" 
+                            v-bind:key="item.id"
+                            v-bind:item="item"
+                            v-bind:class="[item.isVisible ? '' : 'unknown', item.affordable ? '' : 'unaffordable']"
+                            )
             
-            </shop-wrapper>
 </template>
 
 <script>
+// Components:
 import ShopHeader from "./ShopHeader.vue";
-import ShopWrapper from "./ShopWrapper.vue";
 import ShopItem from "./ShopItem.vue";
 import UpgradeItem from "./UpgradeItem.vue";
+
+// Classes
 import ShopItemObj from "../ShopItemObj.js";
 
 window.ShopItemObj = ShopItemObj;
@@ -34,7 +50,11 @@ export default {
     data() {
 
         const items = [
-            new ShopItemObj("Gin T", "gin-t"),
+            new ShopItemObj("Gin T", "gin-t", {
+                initialCost: 1,
+                baseCostAdd: 1,
+                costMultiplier: 2,
+            }),
             new ShopItemObj("Ripper", "ripper"),
             new ShopItemObj("Rixo", "rixo"),
             new ShopItemObj("Igor", "igor"),
@@ -51,7 +71,27 @@ export default {
             money: 0,
             level: 0,
             visibleItemNum: 1,
-            items: items
+            items: items,
+            buyingAmount: 1
+        }
+    },
+
+    methods: {
+        buy(item) {
+            const cost = item.getCurrentCost(this.buyingAmount);
+            if (cost <= this.money && item.isVisible) {
+                this.money -= cost;
+                item.add(this.buyingAmount);
+            }
+        },
+
+        onBuy(item) {
+            console.log("correct log");
+            this.buy(item);
+        },
+
+        testMethod(...args) {
+            console.log(args);
         }
     },
 
@@ -64,6 +104,20 @@ export default {
             }
 
             return this.items;
+        },
+
+        affordableItems() {
+            const affordable = [];
+            this.items.forEach(item => {
+                if (item.getCurrentCost(this.buyingAmount) <= this.money) {
+                    affordable.push(item);
+                    item.affordable = true;
+                } else {
+                    item.affordable = false;
+                }
+            });
+
+            return affordable;
         }
     },
 
@@ -100,5 +154,27 @@ export default {
         $outer: #877152;
         $inner: #c79b65;
         background: linear-gradient(to right, $outer, $inner, $outer);
+    }
+
+    .shop-wrapper {
+        width: 100%;
+        display: table;
+        
+    }
+
+    .shop-items, .shop-header {
+        margin-top: 15px;
+    }
+    
+    .shop-header {
+        $color-length: 40px;
+        background: repeating-linear-gradient(to right, 
+            #00152b $color-length * 0,
+            #00152b $color-length * 1,
+            #004147 $color-length * 1, 
+            #004147 $color-length * 2
+        );
+
+        color: #ffffff;
     }
 </style>

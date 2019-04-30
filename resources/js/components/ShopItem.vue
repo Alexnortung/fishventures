@@ -9,12 +9,12 @@
 
 <script>
 export default {
-    props: ["name", "owned", "imgName"],
+    props: ["name", "owned", "imgName", "item"],
     data() {
         return {
 
         }
-    }
+    },
 }
 </script>
 
@@ -24,6 +24,7 @@ export default {
         background: linear-gradient(to right, #1d1d1d, #6F6F6F);
         color: #fff;
         height: 64px;
+        cursor: pointer;
 
         span.text {
             padding-left: 10px;
@@ -37,6 +38,10 @@ export default {
             }
         }
 
+        &.unknown, &.unaffordable {
+            color: rgba(#fff, 0.5);
+            cursor: default;
+        }
 
     }
 

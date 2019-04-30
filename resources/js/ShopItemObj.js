@@ -3,12 +3,30 @@ const unknownImgName = "unknown";
 
 
 class ShopItemObj {
-    constructor(name, imgName) {
+    /**
+     * 
+     * @param {String} name the name of the item
+     * @param {String} imgName the name of the image on the filesystem
+     * @param {Object} options An object containing options for the shopit
+     * @param {Number} options.initialCost How much the the first item costs
+     * @param {Number} options.costMultiplier How much the ccost should be multiplied every time a new item is bought
+     * @param {Number} options.baseCostAdd How much the base cost should go up everty time the item is bought
+     */
+    constructor(name, imgName, options) {
+
+        Object.assign(this, {
+            initialCost: 1,
+            costMultiplier: 1.5,
+            baseCostAdd: 0,
+        }, options);
+
+
         this._name = name;
         this._owned = 0;
         this.id = shopItemId;
         this._imgName = imgName;
         this.notVisibleImgName = unknownImgName;
+        this.affordable = false;
         shopItemId++;
 
         this.isVisible = false;
@@ -36,6 +54,26 @@ class ShopItemObj {
         } else {
             return this.notVisibleImgName;
         }
+    }
+
+    getCurrentCost(amount) {
+        if (typeof amount !== "Number") {
+            amount = 1;
+        }
+
+        const start =  this.initialCost * (this.costMultiplier ** this._owned);
+        let cost = 0;
+
+        for (let i = 0; i < amount; i++) {
+            cost += start * (this.costMultiplier ** i);
+        }
+
+        return Math.round(cost);
+
+    }
+
+    add(amount) {
+        this._owned += amount;
     }
 }
 
