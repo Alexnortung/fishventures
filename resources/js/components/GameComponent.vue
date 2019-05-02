@@ -6,7 +6,10 @@
                 .money-num {{ money }}
             #click-area-inner
                 #clicker-object
-
+                    img(
+                        v-bind:src="'img/level-images/' + currentLevelImageName + '.png'"
+                        v-on:click="money+= clickValue"
+                        )
 
         #shop-area
             //- <shop-wrapper :headerName="'Upgrades'">
@@ -18,7 +21,7 @@
                 .shop-items
                     .item-items-item-wrapper(
                         @click="buy(item)"
-                        v-for="item in visibleItems" 
+                        v-for="item in items" 
                         )
 
                         shop-item(
@@ -28,7 +31,7 @@
                             v-bind:imgName="item.imgName" 
                             v-bind:key="item.id"
                             v-bind:item="item"
-                            v-bind:class="[item.isVisible ? '' : 'unknown', item.affordable ? '' : 'unaffordable']"
+                            v-bind:class="{unknown: !isItemVisible(item), unaffordable: !isItemAffordable(item)}"
                             )
             
 </template>
@@ -39,8 +42,10 @@ import ShopHeader from "./ShopHeader.vue";
 import ShopItem from "./ShopItem.vue";
 import UpgradeItem from "./UpgradeItem.vue";
 
+
 // Classes
 import ShopItemObj from "../ShopItemObj.js";
+import LevelHandler from "../LevelHandler.js";
 
 window.ShopItemObj = ShopItemObj;
 
@@ -51,6 +56,9 @@ window.ShopItemObj = ShopItemObj;
 export default {
     
     data() {
+        const levelImages = [
+            "bronze-cup"
+        ];
 
         const items = [
             new ShopItemObj("Gin T", "gin-t", {
@@ -75,7 +83,8 @@ export default {
             level: 0,
             visibleItemNum: 1,
             items: items,
-            buyingAmount: 1
+            buyingAmount: 1,
+            levelHandler: new LevelHandler(levelImages),
         }
     },
 
@@ -95,18 +104,51 @@ export default {
 
         testMethod(...args) {
             console.log(args);
+        },
+
+        isItemVisible(item) {
+            const items = this.visibleItems;
+            for (let i = 0; i < items.length; i++) {
+                const cItem = items[i];
+                if (cItem === item) {
+                    return true;
+                }
+            }
+
+            return false;
+        },
+
+        isItemAffordable(item) {
+            const items = this.visibleItems;
+            for (let i = 0; i < items.length; i++) {
+                const cItem = items[i];
+                if (item === cItem) {
+                    const cost = cItem.getCurrentCost(this.buyingAmount);
+                    if (this.money >= cost) {
+                        return true;
+                    } else {
+                        break;
+                    }
+                }
+
+            }
+
+            return false;
         }
     },
 
     computed: {
         visibleItems() {
-
+            const vis = [];
             for (let i = 0; i < this.items.length; i++) {
                 const item = this.items[i];
                 item.isVisible = i < this.visibleItemNum;
+                if (i < this.visibleItemNum) {
+                    vis.push(item);
+                }
             }
 
-            return this.items;
+            return vis;
         },
 
         affordableItems() {
@@ -121,6 +163,18 @@ export default {
             });
 
             return affordable;
+        },
+
+        currentLevelImageName() {
+            return this.levelHandler.getCurrentImage();
+        },
+
+        clickValue() {
+            const base = 1;
+            let value = base;
+            //add upgrades
+
+            return value;
         }
     },
 
@@ -150,6 +204,13 @@ export default {
         max-width: 100%;
 
         background: linear-gradient(to top, #2376ba, #bff8ff)
+    }
+
+    #clicker-object  {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
     
     #shop-area {
