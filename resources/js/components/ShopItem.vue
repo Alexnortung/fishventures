@@ -2,6 +2,7 @@
     .shop-item.shop-item-gradient
         .table-cell.w100
             <img class="shop-item-icon" :src="'/img/icons/' + imgName + '.png'">
+            .border
             span.in.name.text {{ name }}
         .table-cell.w100.right
             span.in.owned.text {{ owned }}
@@ -21,6 +22,7 @@ export default {
 <style lang="scss">
 
     .shop-item {
+        position: relative;
         background: linear-gradient(to right, #1d1d1d, #6F6F6F);
         color: #fff;
         height: 64px;
@@ -34,6 +36,20 @@ export default {
             span.text {
                 padding-left: 0;
                 padding-right: 10px;
+
+            }
+        }
+
+        .border {
+            position: absolute;
+            height: 100%;
+            display: inline-block;
+        }
+
+        &.unknown {
+            .shop-item-icon {
+                filter: grayscale(80%) blur(15px);
+                overflow: hidden;
 
             }
         }

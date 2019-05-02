@@ -49,11 +49,7 @@ class ShopItemObj {
     }
 
     get imgName() {
-        if (this.isVisible) {
-            return this._imgName;
-        } else {
-            return this.notVisibleImgName;
-        }
+        return this._imgName;
     }
 
     getCurrentCost(amount) {

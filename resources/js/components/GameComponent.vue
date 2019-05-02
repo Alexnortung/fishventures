@@ -1,6 +1,9 @@
 <template lang="pug">
     #game-wrapper
         #clicker-area
+            #fish-money-container 
+                img#fish-money-icon(src="img/fish-money.png")
+                .money-num {{ money }}
             #click-area-inner
                 #clicker-object
 
@@ -123,7 +126,6 @@ export default {
 
     components: {
         ShopHeader,
-        ShopWrapper,
         ShopItem,
         UpgradeItem,
     }
@@ -132,6 +134,10 @@ export default {
 
 <style lang="scss">
 
+    .item-items-item-wrapper {
+        overflow: auto;
+    }
+
     #game-wrapper {
         display: table;
         width: 100%;
@@ -139,6 +145,7 @@ export default {
     }
 
     #clicker-area {
+        position: relative;
         display: table-cell;
         max-width: 100%;
 
@@ -146,6 +153,7 @@ export default {
     }
     
     #shop-area {
+        position: relative;
         max-width: 100%;
         width: 320px;
         display: table-cell;
@@ -155,6 +163,38 @@ export default {
         $inner: #c79b65;
         background: linear-gradient(to right, $outer, $inner, $outer);
     }
+
+    #fish-money-container {
+        display: table;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #282828;
+        padding: 5px;
+
+        min-width: 160px;
+
+        .money-num {
+            display: table-cell;
+            vertical-align: middle;
+            color: #ceb85b;
+            font-size: 38px;
+            padding-left: 20px;
+            text-align: right;
+        }
+
+    }
+
+    #fish-money-icon {
+        width: 44px;
+        height: auto;
+        display: table-cell;
+        vertical-align: middle;
+        
+
+    }
+
+
 
     .shop-wrapper {
         width: 100%;

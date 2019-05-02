@@ -31,7 +31,7 @@ html, body {
     box-shadow: box-gradient-stroke($borderW, $inner-color, #c6c6c6);
     margin: $borderW * 1px;
 
-    img.shop-item-icon{
+    .border {
         border-right: $borderW * 1px solid $inner-color;
 
     }
