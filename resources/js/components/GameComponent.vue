@@ -12,9 +12,13 @@
                         )
 
         #shop-area
-            //- <shop-wrapper :headerName="'Upgrades'">
-            //-     <upgrade-item></upgrade-item>
-            //- </shop-wrapper>
+            .shop-wrapper
+                ShopHeader.shop-header Upgrades
+                .upgrade-items
+                    .upgrade-items-wrapper(
+                        @click="buyUpgrade"
+                        v-for="upgrade in upgrades"
+                        )
             
             .shop-wrapper
                 shop-header.shop-header Shop
@@ -118,7 +122,7 @@ export default {
         buy(item) {
             const cost = item.getCurrentCost(this.buyingAmount);
             if (cost <= this.displayMoney && item.isVisible) {
-                this.displayMoney -= cost;
+                this.money -= cost;
                 item.add(this.buyingAmount);
             }
         },
