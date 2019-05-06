@@ -3,7 +3,7 @@
         #clicker-area
             #fish-money-container 
                 img#fish-money-icon(src="img/fish-money.png")
-                .money-num {{ money }}
+                .money-num {{ displayMoney }}
             #click-area-inner
                 #clicker-object
                     img(
@@ -65,17 +65,38 @@ export default {
                 initialCost: 1,
                 baseCostAdd: 1,
                 costMultiplier: 2,
+                moneyPerSecond: 0.1,
             }),
-            new ShopItemObj("Ripper", "ripper"),
-            new ShopItemObj("Rixo", "rixo"),
-            new ShopItemObj("Igor", "igor"),
-            new ShopItemObj("Jaeger", "jaeger"),
-            new ShopItemObj("Steven", "steven"),
-            new ShopItemObj("Blu", "blu"),
-            new ShopItemObj("Enigma", "enigma"),
-            new ShopItemObj("Bartholomew", "bartholomew"),
-            new ShopItemObj("Zanuchi", "zanuchi"),
-            new ShopItemObj("Beaumont", "beaumont"),
+            new ShopItemObj("Ripper", "ripper", {
+                moneyPerSecond: 2,
+            }),
+            new ShopItemObj("Rixo", "rixo", {
+                moneyPerSecond: 5,
+            }),
+            new ShopItemObj("Igor", "igor", {
+                moneyPerSecond: 35,
+            }),
+            new ShopItemObj("Jaeger", "jaeger", {
+                moneyPerSecond: 120,
+            }),
+            new ShopItemObj("Steven", "steven", {
+                moneyPerSecond: 375,
+            }),
+            new ShopItemObj("Blu", "blu", {
+                moneyPerSecond: 1000
+            }),
+            new ShopItemObj("Enigma", "enigma", {
+                moneyPerSecond: 3000
+            }),
+            new ShopItemObj("Bartholomew", "bartholomew", {
+                moneyPerSecond: 9999
+            }),
+            new ShopItemObj("Zanuchi", "zanuchi", {
+                moneyPerSecond: 33333,
+            }),
+            new ShopItemObj("Beaumont", "beaumont", {
+                moneyPerSecond: 190000,
+            }),
         ];
 
         return {
@@ -85,14 +106,19 @@ export default {
             items: items,
             buyingAmount: 1,
             levelHandler: new LevelHandler(levelImages),
+            lastTimestamp: 0,
         }
+    },
+
+    created() {
+        this.moneyTick();
     },
 
     methods: {
         buy(item) {
             const cost = item.getCurrentCost(this.buyingAmount);
-            if (cost <= this.money && item.isVisible) {
-                this.money -= cost;
+            if (cost <= this.displayMoney && item.isVisible) {
+                this.displayMoney -= cost;
                 item.add(this.buyingAmount);
             }
         },
@@ -124,7 +150,7 @@ export default {
                 const cItem = items[i];
                 if (item === cItem) {
                     const cost = cItem.getCurrentCost(this.buyingAmount);
-                    if (this.money >= cost) {
+                    if (this.displayMoney >= cost) {
                         return true;
                     } else {
                         break;
@@ -134,10 +160,39 @@ export default {
             }
 
             return false;
+        },
+
+        moneyEarnedSinceLastFrame(timestamp) {
+            const timeDiff = (timestamp - this.lastTimestamp) / 1000;
+
+            let total = 0;
+
+            total = this.items.reduce((acc, item) => acc + item.moneyPerSecond * item.owned * timeDiff, 0);
+            // console.log(this.items);
+            
+
+            return total;
+
+        },
+
+        moneyTick () {
+            window.requestAnimationFrame((timestamp) => {
+                const addMoney = this.moneyEarnedSinceLastFrame(timestamp);
+                this.lastTimestamp = timestamp;
+                this.money += addMoney;
+                // console.log("tick", addMoney);
+                
+                this.moneyTick();
+            });
         }
     },
 
     computed: {
+
+        displayMoney() {
+            return Math.floor(this.money);
+        },
+
         visibleItems() {
             const vis = [];
             for (let i = 0; i < this.items.length; i++) {

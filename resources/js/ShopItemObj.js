@@ -11,6 +11,7 @@ class ShopItemObj {
      * @param {Number} options.initialCost How much the the first item costs
      * @param {Number} options.costMultiplier How much the ccost should be multiplied every time a new item is bought
      * @param {Number} options.baseCostAdd How much the base cost should go up everty time the item is bought
+     * @param {Number} [options.moneyPerSecond=1] How much miney you will gain from this each second
      */
     constructor(name, imgName, options) {
 
@@ -18,6 +19,7 @@ class ShopItemObj {
             initialCost: 1,
             costMultiplier: 1.5,
             baseCostAdd: 0,
+            moneyPerSecond: 1,
         }, options);
 
 
