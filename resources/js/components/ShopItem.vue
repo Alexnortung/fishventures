@@ -67,6 +67,11 @@ export default {
             display: inline-block;
         }
 
+        .shop-item-icon {
+            filter: grayscale(0) blur(0);
+            transition: filter 0.5s;
+        }
+
         &.unknown {
             .shop-item-icon {
                 filter: grayscale(80%) blur(15px);

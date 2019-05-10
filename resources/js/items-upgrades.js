@@ -17,17 +17,27 @@ function generateItemsAndUpgrades(neededObjects) {
         moneyPerSecond: 0.1,
     });
 
+    
+    const ripper = new ShopItemObj("Ripper", "ripper", {
+        moneyPerSecond: 1.5,
+        initialCost: 100,
+        costMultiplier: 1.2,
+        baseCostAdd: 5,
+    });
+
+    const rixo = new ShopItemObj("Rixo", "rixo", {
+        moneyPerSecond: 5,
+    });
+
+    const igor = new ShopItemObj("Igor", "igor", {
+        moneyPerSecond: 35,
+    });
+    
     const items = [
         ginT,
-        new ShopItemObj("Ripper", "ripper", {
-            moneyPerSecond: 2,
-        }),
-        new ShopItemObj("Rixo", "rixo", {
-            moneyPerSecond: 5,
-        }),
-        new ShopItemObj("Igor", "igor", {
-            moneyPerSecond: 35,
-        }),
+        ripper,
+        rixo,
+        igor,
         new ShopItemObj("Jaeger", "jaeger", {
             moneyPerSecond: 120,
         }),
@@ -74,6 +84,8 @@ function generateItemsAndUpgrades(neededObjects) {
             "newbie-rod",
             `Gives you more fishing power (clicks give +2, lets you buy the next fish)`,
         ),
+
+        //reaper for ripper
 
     ];
 
