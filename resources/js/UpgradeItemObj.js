@@ -32,7 +32,7 @@ class UpgradeItemObj {
             return false;
         }
 
-        this.affectedItems.foreach((item)=> {
+        this.affectedItems.forEach((item)=> {
             this.affectedItemFunction(item);
         });
 

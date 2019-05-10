@@ -44,9 +44,18 @@ const items = [
 ];
 
 const upgrades = [
-    new UpgradeItemObj("Gin", 40, [ginT], function (item) {
-        item.moneyPerSecond += 0.1;
-    }, "gin", `Gives Gin T some more Gin! (Adds 0.1$/s to Gin T)`),
+    new UpgradeItemObj(
+        "Gin", 
+        40, 
+        [ginT], 
+        function (item) {
+            item.moneyPerSecond += 0.1;
+        }, 
+        "gin", `Gives Gin T some more Gin! (Adds 0.1$/s to Gin T)`
+    ),
+
+    
+
 ];
 
 export {items, upgrades}

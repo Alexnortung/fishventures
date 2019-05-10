@@ -15,11 +15,14 @@
             .shop-wrapper
                 shop-header.shop-header Upgrades
                 .upgrade-items
+                    .all-bought-message(
+                        v-if="notBoughtUpgrades.length === 0"
+                        ) All upgrades bought!
                     .upgrade-items-wrapper(
                         @click="buyUpgrade(upgrade)"
-                        v-for="upgrade in upgrades"
-                        v-on:mouseover="currentHoveredUpgrade = upgrade"
-                        :class="{ hovered: currentHoveredUpgrade === upgrade }"
+                        v-for="upgrade in notBoughtUpgrades"
+                        v-on:mouseover="mouseOverUpgrade(upgrade)"
+                        :class="{ hovered: currentHoveredUpgrade === upgrade, affordable: isUpgradeAffordable(upgrade) }"
                         )
                         upgrade-item(
                             :upgradeObject="upgrade"
@@ -29,7 +32,7 @@
                     v-if="currentHoveredUpgrade !== null"
                     )
                     //- title
-                    .header {{ currentHoveredUpgrade.name }}
+                    .header {{ currentHoveredUpgrade.name }} - {{ currentHoveredUpgrade.cost }}$
                     //- description
                     .description {{ currentHoveredUpgrade.description }}
             
@@ -85,7 +88,7 @@ export default {
         
 
         return {
-            money: 0,
+            money: 100,
             level: 0,
             visibleItemNum: 1,
             items: items,
@@ -105,11 +108,22 @@ export default {
     methods: {
 
         mouseOverUpgrade(upgrade) {
-
+            this.currentHoveredUpgrade = upgrade;
         },
 
         buyUpgrade(upgrade) {
+            if (this.isUpgradeAffordable(upgrade) && !upgrade.bought) {
+                const res = upgrade.onBuy();
 
+                if (res) {
+                    this.money -= upgrade.cost;
+                    this.currentHoveredUpgrade = null;
+                }
+            }
+        },
+
+        isUpgradeAffordable(upgrade) {
+            return upgrade.cost <= this.displayMoney;
         },
 
         buy(item) {
@@ -176,6 +190,10 @@ export default {
     },
 
     computed: {
+
+        notBoughtUpgrades() {
+            return this.upgrades.filter(upgrade => !upgrade.bought);
+        },
 
         affordableUpgrades() {
             return this.upgrades.filter((upgrade) => upgrade.cost <= this.displayMoney);
@@ -326,6 +344,12 @@ export default {
         );
 
         color: #ffffff;
+    }
+
+    .upgrade-items-wrapper {
+        &.affordable {
+            cursor: pointer;
+        }
     }
 
 
