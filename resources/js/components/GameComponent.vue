@@ -104,7 +104,11 @@ export default {
 
     methods: {
 
-        buyUpgrade() {
+        mouseOverUpgrade(upgrade) {
+
+        },
+
+        buyUpgrade(upgrade) {
 
         },
 
@@ -127,11 +131,8 @@ export default {
 
         isItemVisible(item) {
             const items = this.visibleItems;
-            for (let i = 0; i < items.length; i++) {
-                const cItem = items[i];
-                if (cItem === item) {
-                    return true;
-                }
+            if (items.includes(item)) {
+                return true;
             }
 
             return false;
@@ -139,17 +140,11 @@ export default {
 
         isItemAffordable(item) {
             const items = this.visibleItems;
-            for (let i = 0; i < items.length; i++) {
-                const cItem = items[i];
-                if (item === cItem) {
-                    const cost = cItem.getCurrentCost(this.buyingAmount);
-                    if (this.displayMoney >= cost) {
-                        return true;
-                    } else {
-                        break;
-                    }
+            if (items.includes(item)) {
+                const cost = item.getCurrentCost(this.buyingAmount);
+                if (this.displayMoney >= cost) {
+                    return true;
                 }
-
             }
 
             return false;
@@ -182,6 +177,12 @@ export default {
 
     computed: {
 
+        affordableUpgrades() {
+            return this.upgrades.filter((upgrade) => upgrade.cost <= this.displayMoney);
+
+            
+        },
+
         displayMoney() {
             return Math.floor(this.money);
         },
@@ -202,11 +203,11 @@ export default {
         affordableItems() {
             const affordable = [];
             this.items.forEach(item => {
-                if (item.getCurrentCost(this.buyingAmount) <= this.money) {
+                if (item.getCurrentCost(this.buyingAmount) <= this.displayMoney) {
                     affordable.push(item);
-                    item.affordable = true;
+                    // item.affordable = true;
                 } else {
-                    item.affordable = false;
+                    // item.affordable = false;
                 }
             });
 
