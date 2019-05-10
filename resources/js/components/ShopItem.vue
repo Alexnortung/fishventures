@@ -1,11 +1,25 @@
 <template lang="pug">
     .shop-item.shop-item-gradient
-        .table-cell.w100
-            <img class="shop-item-icon" :src="'/img/icons/' + imgName + '.png'">
-            .border
-            span.in.name.text {{ name }}
-        .table-cell.w100.right
-            span.in.owned.text {{ owned }}
+        .row.w100
+            .table-cell.w100
+                <img class="shop-item-icon" :src="'/img/icons/' + imgName + '.png'">
+                .border
+                span.in.middle
+                    span.name.text {{ name }}
+                    br
+                    span.gain.text(
+                        v-text="item.moneyPerSecond + '$/s'"
+                        v-if="item.isVisible"
+                        )
+                
+            .table-cell.right.w100
+                span.in.middle
+                    span.cost.text(
+                        v-text="item.getCurrentCost() + '$'"
+                        v-if="item.isVisible"
+                        )
+                    br(v-if="item.isVisible")
+                    span.owned.text {{ owned }}
 </template>
 
 <script>
@@ -20,6 +34,13 @@ export default {
 </script>
 
 <style lang="scss">
+
+    .middle {
+        vertical-align: middle;
+    }
+    .row {
+        display: table-row;
+    }
 
     .shop-item {
         position: relative;
@@ -59,6 +80,10 @@ export default {
             cursor: default;
         }
 
+    }
+
+    .name, .cost {
+        font-size: 24px;
     }
 
     .w100 {

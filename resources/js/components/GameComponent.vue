@@ -13,12 +13,25 @@
 
         #shop-area
             .shop-wrapper
-                ShopHeader.shop-header Upgrades
+                shop-header.shop-header Upgrades
                 .upgrade-items
                     .upgrade-items-wrapper(
-                        @click="buyUpgrade"
+                        @click="buyUpgrade(upgrade)"
                         v-for="upgrade in upgrades"
+                        v-on:mouseover="currentHoveredUpgrade = upgrade"
+                        :class="{ hovered: currentHoveredUpgrade === upgrade }"
                         )
+                        upgrade-item(
+                            :upgradeObject="upgrade"
+                            
+                            )
+                .upgrade-item-description(
+                    v-if="currentHoveredUpgrade !== null"
+                    )
+                    //- title
+                    .header {{ currentHoveredUpgrade.name }}
+                    //- description
+                    .description {{ currentHoveredUpgrade.description }}
             
             .shop-wrapper
                 shop-header.shop-header Shop
@@ -49,7 +62,12 @@ import UpgradeItem from "./UpgradeItem.vue";
 
 // Classes
 import ShopItemObj from "../ShopItemObj.js";
+import UpgradeItemObj from "../UpgradeItemObj.js"
 import LevelHandler from "../LevelHandler.js";
+
+
+// Pre-defined objects
+import {items, upgrades} from "../items-upgrades.js";
 
 window.ShopItemObj = ShopItemObj;
 
@@ -64,53 +82,19 @@ export default {
             "bronze-cup"
         ];
 
-        const items = [
-            new ShopItemObj("Gin T", "gin-t", {
-                initialCost: 1,
-                baseCostAdd: 1,
-                costMultiplier: 2,
-                moneyPerSecond: 0.1,
-            }),
-            new ShopItemObj("Ripper", "ripper", {
-                moneyPerSecond: 2,
-            }),
-            new ShopItemObj("Rixo", "rixo", {
-                moneyPerSecond: 5,
-            }),
-            new ShopItemObj("Igor", "igor", {
-                moneyPerSecond: 35,
-            }),
-            new ShopItemObj("Jaeger", "jaeger", {
-                moneyPerSecond: 120,
-            }),
-            new ShopItemObj("Steven", "steven", {
-                moneyPerSecond: 375,
-            }),
-            new ShopItemObj("Blu", "blu", {
-                moneyPerSecond: 1000
-            }),
-            new ShopItemObj("Enigma", "enigma", {
-                moneyPerSecond: 3000
-            }),
-            new ShopItemObj("Bartholomew", "bartholomew", {
-                moneyPerSecond: 9999
-            }),
-            new ShopItemObj("Zanuchi", "zanuchi", {
-                moneyPerSecond: 33333,
-            }),
-            new ShopItemObj("Beaumont", "beaumont", {
-                moneyPerSecond: 190000,
-            }),
-        ];
+        
 
         return {
             money: 0,
             level: 0,
             visibleItemNum: 1,
             items: items,
+            upgrades: upgrades,
             buyingAmount: 1,
             levelHandler: new LevelHandler(levelImages),
             lastTimestamp: 0,
+            clickValueBase: 1,
+            currentHoveredUpgrade: null,
         }
     },
 
@@ -119,6 +103,11 @@ export default {
     },
 
     methods: {
+
+        buyUpgrade() {
+
+        },
+
         buy(item) {
             const cost = item.getCurrentCost(this.buyingAmount);
             if (cost <= this.displayMoney && item.isVisible) {
@@ -229,7 +218,7 @@ export default {
         },
 
         clickValue() {
-            const base = 1;
+            const base = this.clickValueBase;
             let value = base;
             //add upgrades
 
@@ -337,4 +326,19 @@ export default {
 
         color: #ffffff;
     }
+
+
+    .upgrade-item-description {
+        .header {
+            font-size: 24px;
+        }
+
+        .description {
+
+
+        }
+    }
+
+
+
 </style>

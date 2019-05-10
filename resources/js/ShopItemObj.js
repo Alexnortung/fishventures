@@ -55,15 +55,15 @@ class ShopItemObj {
     }
 
     getCurrentCost(amount) {
-        if (typeof amount !== "Number") {
+        if (typeof amount !== "number") {
             amount = 1;
         }
 
-        const start =  this.initialCost * (this.costMultiplier ** this._owned);
+        const start =  (this.initialCost + this.baseCostAdd * this._owned) * (this.costMultiplier ** this._owned);
         let cost = 0;
 
         for (let i = 0; i < amount; i++) {
-            cost += start * (this.costMultiplier ** i);
+            cost += this.baseCostAdd * i + start * (this.costMultiplier ** i);
         }
 
         return Math.round(cost);

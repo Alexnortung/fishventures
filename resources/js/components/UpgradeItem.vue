@@ -1,18 +1,35 @@
 <template lang="pug">
     .upgrade-item
-        span.name {{ name }}
-        span.owned {{ owned }}
+        img(
+            :src="upgradeObject.imagePath"
+            )
 </template>
 
 <script>
 export default {
-    props: ['owned', 'name'],
+    props: ['upgradeObject'],
     data () {
 
 
         return {
             
         }
+    },
+
+    methods: {
+        
     }
 }
 </script>
+
+<style lang="scss">
+    .upgrade-item {
+
+        img {
+            width: 64px;
+
+        }
+    }
+
+
+</style>
