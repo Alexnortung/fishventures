@@ -25,9 +25,17 @@ export default {
 <style lang="scss">
     .upgrade-item {
 
+        display: inline-block;
+
         img {
             width: 64px;
+            filter: grayscale(1);
+            transition: filter 0.3s;
 
+        }
+
+        .affordable & img {
+            filter: grayscale(0);
         }
     }
 

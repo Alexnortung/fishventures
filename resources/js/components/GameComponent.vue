@@ -70,7 +70,7 @@ import LevelHandler from "../LevelHandler.js";
 
 
 // Pre-defined objects
-import {items, upgrades} from "../items-upgrades.js";
+import generateItemsUpgrades from "../items-upgrades.js";
 
 window.ShopItemObj = ShopItemObj;
 
@@ -84,6 +84,10 @@ export default {
         const levelImages = [
             "bronze-cup"
         ];
+
+        const {upgrades, items} = generateItemsUpgrades({
+            gameComponent: this
+        });
 
         
 
@@ -278,6 +282,7 @@ export default {
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
+        cursor: pointer;
     }
     
     #shop-area {
@@ -347,6 +352,9 @@ export default {
     }
 
     .upgrade-items-wrapper {
+
+        display: inline-block;
+
         &.affordable {
             cursor: pointer;
         }
