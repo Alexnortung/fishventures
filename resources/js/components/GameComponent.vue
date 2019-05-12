@@ -22,19 +22,37 @@
                         @click="buyUpgrade(upgrade)"
                         v-for="upgrade in notBoughtUpgrades"
                         v-on:mouseover="mouseOverUpgrade(upgrade)"
-                        :class="{ hovered: currentHoveredUpgrade === upgrade, affordable: isUpgradeAffordable(upgrade) }"
+                        :class=`{ 
+                            hovered: currentHoveredUpgrade === upgrade, 
+                            affordable: isUpgradeAffordable(upgrade),
+                            unlocked: upgrade.requiredFunction()
+                            }`
                         )
                         upgrade-item(
                             :upgradeObject="upgrade"
                             
                             )
+                    
                 .upgrade-item-description(
-                    v-if="currentHoveredUpgrade !== null"
+                    v-if=`
+                        currentHoveredUpgrade !== null
+                        `
                     )
-                    //- title
-                    .header {{ currentHoveredUpgrade.name }} - {{ currentHoveredUpgrade.cost }}$
-                    //- description
-                    .description {{ currentHoveredUpgrade.description }}
+                    div(
+                        v-if=`
+                            currentHoveredUpgrade.requiredFunction()
+                            `
+                    )
+                        //- title
+                        .header {{ currentHoveredUpgrade.name }} - {{ currentHoveredUpgrade.cost }}$
+                        //- description
+                        .description {{ currentHoveredUpgrade.description }}
+
+                    div(
+                        v-else
+                    )
+                        .header ??????
+                        .description {{ currentHoveredUpgrade.requiredDescription }}
             
             .shop-wrapper
                 shop-header.shop-header Shop

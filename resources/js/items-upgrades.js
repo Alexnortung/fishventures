@@ -70,7 +70,10 @@ function generateItemsAndUpgrades(neededObjects) {
                 item.moneyPerSecond += 0.1;
             },
             "gin",
-            `Gives Gin T some more Gin! (Adds 0.1$/s to Gin T)`,
+            `Gives Gin T some more Gin! (Adds +0.1$/s to Gin T)`,
+            function () {
+                return ginT.isVisible;
+            }
         ),
 
         new UpgradeItemObj(
@@ -85,7 +88,21 @@ function generateItemsAndUpgrades(neededObjects) {
             `Gives you more fishing power (clicks give +2, lets you buy the next fish)`,
         ),
 
-        //reaper for ripper
+        new UpgradeItemObj(
+            "Reaper",
+            275,
+            [ripper],
+            function (item) {
+                item.moneyPerSecond *= 1.5;
+            },
+            "reaper",
+            `The reaper will give Ripper more swimming strength (multiply Rippers income by x1.5)`,
+            function () {
+                return ripper.isVisible;
+            },
+            `You need to unlock ${ripper.name}`,
+        ),
+
 
     ];
 

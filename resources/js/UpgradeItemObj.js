@@ -1,4 +1,6 @@
-
+function retTrue() {
+    return true;
+}
 
 class UpgradeItemObj {
     /**
@@ -15,13 +17,16 @@ class UpgradeItemObj {
      * @param {String} imgName The name of the image
      * @param {String} description a description of what the upgrade does
      */
-    constructor(name, cost, affectedItems, affectedItemFunction, imgName, description) {
+    
+    constructor(name, cost, affectedItems, affectedItemFunction, imgName, description, requiredFunction = retTrue, requiredDescription = "") {
         this.name = name;
         this.cost = cost;
         this.imgName = imgName;
         this.affectedItems = affectedItems;
         this.affectedItemFunction = affectedItemFunction;
         this.description = description;
+        this.requiredFunction = requiredFunction;
+        this.requiredDescription = requiredDescription;
 
         this. bought = false;
     }

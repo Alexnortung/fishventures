@@ -29,13 +29,18 @@ export default {
 
         img {
             width: 64px;
-            filter: grayscale(1);
+            filter: grayscale(1) blur(6px);
             transition: filter 0.3s;
 
         }
 
-        .affordable & img {
-            filter: grayscale(0);
+        .unlocked & img {
+            filter: grayscale(1) blur(0);
+            
+        }
+
+        .affordable.unlocked & img {
+            filter: grayscale(0) blur(0);
         }
     }
 
