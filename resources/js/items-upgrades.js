@@ -88,9 +88,11 @@ function generateItemsAndUpgrades(neededObjects) {
             `Gives you more fishing power (clicks give +2, lets you buy the next fish)`,
         ),
 
+        // Tonic
+
         new UpgradeItemObj(
             "Reaper",
-            275,
+            400,
             [ripper],
             function (item) {
                 item.moneyPerSecond *= 1.5;
