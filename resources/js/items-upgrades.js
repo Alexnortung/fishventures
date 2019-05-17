@@ -27,6 +27,9 @@ function generateItemsAndUpgrades(neededObjects) {
 
     const rixo = new ShopItemObj("Rixo", "rixo", {
         moneyPerSecond: 5,
+        initialCost: 5500,
+        costMultiplier: 1.3,
+        baseCostAdd: 0,
     });
 
     const igor = new ShopItemObj("Igor", "igor", {
@@ -61,20 +64,23 @@ function generateItemsAndUpgrades(neededObjects) {
         }),
     ];
 
+
+    const ginUpgrade = new UpgradeItemObj(
+        "Gin",
+        40,
+        [ginT],
+        function (item) {
+            item.moneyPerSecond += 0.1;
+        },
+        "gin",
+        `Gives Gin T some more Gin! (Adds +0.1$/s to Gin T)`,
+        function () {
+            return ginT.isVisible;
+        }
+    );
+
     const upgrades = [
-        new UpgradeItemObj(
-            "Gin",
-            40,
-            [ginT],
-            function (item) {
-                item.moneyPerSecond += 0.1;
-            },
-            "gin",
-            `Gives Gin T some more Gin! (Adds +0.1$/s to Gin T)`,
-            function () {
-                return ginT.isVisible;
-            }
-        ),
+        ginUpgrade,
 
         new UpgradeItemObj(
             "The newbie rod",
@@ -91,8 +97,21 @@ function generateItemsAndUpgrades(neededObjects) {
         // Tonic
 
         new UpgradeItemObj(
+            "Tonic",
+            600,
+            [ginT],
+            function (item) {
+                item.moneyPerSecond *= 2;
+            },
+            "tonic",
+            `Tonic is essential for a Gin & Tonic (multiply Gin T's income by x2)`,
+            () => ginUpgrade.bought,
+            `You need to buy Gin (upgrade) first`
+        ),
+
+        new UpgradeItemObj(
             "Reaper",
-            400,
+            800,
             [ripper],
             function (item) {
                 item.moneyPerSecond *= 1.5;
@@ -104,6 +123,8 @@ function generateItemsAndUpgrades(neededObjects) {
             },
             `You need to unlock ${ripper.name}`,
         ),
+
+        
 
 
     ];
