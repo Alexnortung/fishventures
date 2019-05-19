@@ -15,7 +15,7 @@
         $newGreen: $startGreen + ($greenDiff * $i / $width);
         $newBlue: $startBlue + ($blueDiff * $i / $width);
 
-        @debug $newBlue;
+        // @debug $newBlue;
 
         $newColor: rgb($newRed, $newGreen, $newBlue);
 
