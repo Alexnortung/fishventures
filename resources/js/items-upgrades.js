@@ -43,6 +43,7 @@ function generateItemsAndUpgrades(neededObjects) {
         igor,
         new ShopItemObj("Jaeger", "jaeger", {
             moneyPerSecond: 120,
+            initialCost: 65000,
         }),
         new ShopItemObj("Steven", "steven", {
             moneyPerSecond: 375,
