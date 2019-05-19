@@ -64,6 +64,17 @@ function generateItemsAndUpgrades(neededObjects) {
         }),
     ];
 
+    const [
+        ,,,,
+        jaeger,
+        steven,
+        blu,
+        enigma,
+        bartholomew,
+        zanuchi,
+        beaumont,
+    ] = items;
+
 
     const ginUpgrade = new UpgradeItemObj(
         "Gin",
