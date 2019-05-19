@@ -282,15 +282,17 @@ export default {
     }
 
     #game-wrapper {
-        display: table;
+        display: flex;
         width: 100%;
         height: 100%;
+        position: relative;
     }
 
     #clicker-area {
         position: relative;
         display: table-cell;
         max-width: 100%;
+        flex-grow: 1;
 
         background: linear-gradient(to top, #2376ba, #bff8ff)
     }
@@ -307,8 +309,9 @@ export default {
         position: relative;
         max-width: 100%;
         width: 320px;
-        display: table-cell;
         padding-left: 15px;
+        overflow-y: auto;
+        height: 100%;
 
         $outer: #877152;
         $inner: #c79b65;
