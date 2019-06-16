@@ -34,7 +34,7 @@ function generateItemsAndUpgrades(neededObjects) {
 
     const igor = new ShopItemObj("Igor", "igor", {
         moneyPerSecond: 35,
-        initialCost: 30000
+        initialCost: 100000,
     });
     
     const items = [
