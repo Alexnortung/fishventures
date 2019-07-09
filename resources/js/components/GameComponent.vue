@@ -3,7 +3,12 @@
         #clicker-area
             #fish-money-container 
                 img#fish-money-icon(src="img/fish-money.png")
-                .money-num {{ displayMoney }}
+                .money-num 
+                    tween-num(
+                        :value="displayMoney"
+                        :duration="500"
+                        easing="linear"
+                        )
             #click-area-inner
                 #clicker-object
                     img(
@@ -79,6 +84,7 @@
 import ShopHeader from "./ShopHeader.vue";
 import ShopItem from "./ShopItem.vue";
 import UpgradeItem from "./UpgradeItem.vue";
+import TweenNum from "vue-tween-number";
 
 
 // Classes
@@ -124,7 +130,11 @@ export default {
     },
 
     created() {
-        this.moneyTick();
+        window.requestAnimationFrame(timestamp => {
+            this.lastTimestamp = timestamp;
+            this.moneyTick();
+        }) 
+        
     },
 
     methods: {
@@ -200,14 +210,17 @@ export default {
         },
 
         moneyTick () {
-            window.requestAnimationFrame((timestamp) => {
-                const addMoney = this.moneyEarnedSinceLastFrame(timestamp);
-                this.lastTimestamp = timestamp;
-                this.money += addMoney;
-                // console.log("tick", addMoney);
-                
-                this.moneyTick();
-            });
+            setTimeout(() => {
+                window.requestAnimationFrame((timestamp) => {
+                    const addMoney = this.moneyEarnedSinceLastFrame(timestamp);
+                    this.lastTimestamp = timestamp;
+                    this.money += addMoney;
+                    // console.log("tick", addMoney);
+                    
+                    this.moneyTick();
+                });
+            }, 150);
+            
         }
     },
 
@@ -271,6 +284,7 @@ export default {
         ShopHeader,
         ShopItem,
         UpgradeItem,
+        TweenNum,
     }
 }
 </script>

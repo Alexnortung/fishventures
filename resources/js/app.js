@@ -23,6 +23,7 @@ Vue.component('game-component', require('./components/GameComponent.vue').defaul
 Vue.component('shop-header', require('./components/ShopHeader.vue'));
 Vue.component('shop-item', require('./components/ShopItem.vue'));
 Vue.component('upgrade-item', require('./components/UpgradeItem.vue'));
+Vue.component('tween-num', require('vue-tween-number'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
