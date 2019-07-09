@@ -3,12 +3,7 @@
         #clicker-area
             #fish-money-container 
                 img#fish-money-icon(src="img/fish-money.png")
-                .money-num 
-                    tween-num(
-                        :value="displayMoney"
-                        :duration="500"
-                        easing="linear"
-                        )
+                .money-num {{ displayMoney }}
             #click-area-inner
                 #clicker-object
                     img(
@@ -92,6 +87,9 @@ import ShopItemObj from "../ShopItemObj.js";
 import UpgradeItemObj from "../UpgradeItemObj.js"
 import LevelHandler from "../LevelHandler.js";
 
+//Functions
+import numberAbbreviate from "../number-abbreviate.js";
+
 
 // Pre-defined objects
 import generateItemsUpgrades from "../items-upgrades.js";
@@ -155,12 +153,12 @@ export default {
         },
 
         isUpgradeAffordable(upgrade) {
-            return upgrade.cost <= this.displayMoney;
+            return upgrade.cost <= this.money;
         },
 
         buy(item) {
             const cost = item.getCurrentCost(this.buyingAmount);
-            if (cost <= this.displayMoney && item.isVisible) {
+            if (cost <= this.money && item.isVisible) {
                 this.money -= cost;
                 item.add(this.buyingAmount);
             }
@@ -188,7 +186,7 @@ export default {
             const items = this.visibleItems;
             if (items.includes(item)) {
                 const cost = item.getCurrentCost(this.buyingAmount);
-                if (this.displayMoney >= cost) {
+                if (this.money >= cost) {
                     return true;
                 }
             }
@@ -231,13 +229,13 @@ export default {
         },
 
         affordableUpgrades() {
-            return this.upgrades.filter((upgrade) => upgrade.cost <= this.displayMoney);
+            return this.upgrades.filter((upgrade) => upgrade.cost <= this.money);
 
             
         },
 
         displayMoney() {
-            return Math.floor(this.money);
+            return numberAbbreviate(Math.floor(this.money));
         },
 
         visibleItems() {
@@ -256,7 +254,7 @@ export default {
         affordableItems() {
             const affordable = [];
             this.items.forEach(item => {
-                if (item.getCurrentCost(this.buyingAmount) <= this.displayMoney) {
+                if (item.getCurrentCost(this.buyingAmount) <= this.money) {
                     affordable.push(item);
                     // item.affordable = true;
                 } else {
