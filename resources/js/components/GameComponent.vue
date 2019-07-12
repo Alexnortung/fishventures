@@ -69,6 +69,7 @@
                             v-bind:imgName="item.imgName" 
                             v-bind:key="item.id"
                             v-bind:item="item"
+                            v-bind:costFormatter="formatMoney"
                             v-bind:class="{unknown: !isItemVisible(item), unaffordable: !isItemAffordable(item)}"
                             )
             
@@ -110,7 +111,7 @@ export default {
             gameComponent: this
         });
 
-        const startMoney = 100;
+        const startMoney = 100000;
 
         return {
             money: startMoney,

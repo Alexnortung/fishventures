@@ -15,7 +15,7 @@
             .table-cell.right.w100
                 span.in.middle
                     span.cost.text(
-                        v-text="item.getCurrentCost() + '$'"
+                        v-text="costFormatter(item.getCurrentCost()) + '$'"
                         v-if="item.isVisible"
                         )
                     br(v-if="item.isVisible")
@@ -24,7 +24,26 @@
 
 <script>
 export default {
-    props: ["name", "owned", "imgName", "item"],
+    props: {
+        "name": {
+            type: String,
+        }, 
+        "owned": {
+            type: Number,
+        }, 
+        "imgName": {
+            type: String,
+        }, 
+        "item": {
+            type: Object,
+        },
+        "costFormatter": {
+            type: Function,
+            default(number) {
+                return number;
+            }
+        }
+    },
     data() {
         return {
 

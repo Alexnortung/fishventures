@@ -121,11 +121,24 @@ function generateItemsAndUpgrades(neededObjects) {
         }
     );
 
+    const noobWorm = new UpgradeItemObj(
+        "Noob worm",
+        700,
+        [gameComponent],
+        (item) => {
+            item.clickValueBase += 0.5;
+            item.visibleItemNum++;
+        },
+        "bait/baby-worm",
+        "This is worm is pretty new to it's job... (clicks give +0.5, lets you buy the next fish)",
+    );
+
 
     const intermediateRod = new UpgradeItemObj(
         "The intermediate rod",
         15000,
-        (gameComp) => {
+        [gameComponent],
+        (item) => {
 
         }
     );
@@ -168,6 +181,8 @@ function generateItemsAndUpgrades(neededObjects) {
             () => ginUpgrade.bought,
             `You need to buy Gin (upgrade) first`
         ),
+
+        noobWorm,
 
         new UpgradeItemObj(
             "Reaper",
