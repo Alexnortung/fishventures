@@ -2,7 +2,7 @@
     .shop-item.shop-item-gradient
         .row.w100
             .table-cell.w100
-                <img class="shop-item-icon" :src="'/img/icons/' + imgName + '.png'">
+                <img class="shop-item-icon" :src="'/img/icons/fish/' + imgName + '.png'">
                 .border
                 span.in.middle
                     span.name.text {{ name }}

@@ -17,7 +17,7 @@ class ShopItemObj {
 
         Object.assign(this, {
             initialCost: 1,
-            costMultiplier: 1.5,
+            costMultiplier: 1.15,
             baseCostAdd: 0,
             moneyPerSecond: 1,
         }, options);
