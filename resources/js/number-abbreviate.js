@@ -1,10 +1,10 @@
 const units = ["", "k", "m", "b", "t", "qd", "qt", "sx", "sp", "o", "n", "d", "alot"];
 
-function numberAbbreviate(number, numLength = 4) {
+function numberAbbreviate(number, seperate=true, numLength = 4) {
     let tier = Math.log10(number) / 3 | 0;
 
     // if zero, we don't need a suffix
-    if (tier == 0) return number;
+    if (tier == 0) return Math.round(number);
 
     // get suffix and determine scale
     if (tier >= units.length) {
@@ -21,8 +21,11 @@ function numberAbbreviate(number, numLength = 4) {
     if (decimals < 0) {
         decimals = 0;
     }
-
-    return scaled.toFixed(decimals) + suffix;
+    const fixedNum = scaled.toFixed(decimals);
+    if (seperate) {
+        return [fixedNum, suffix];
+    }
+    return fixedNum + suffix;
 }
 
 window.numbabbr = numberAbbreviate;

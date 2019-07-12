@@ -3,12 +3,12 @@
         #clicker-area
             #fish-money-container 
                 img#fish-money-icon(src="img/fish-money.png")
-                .money-num {{ displayMoney }}
+                .money-num {{ formatMoney(displayMoney) }}
             #click-area-inner
                 #clicker-object
                     img(
                         v-bind:src="'img/level-images/' + currentLevelImageName + '.png'"
-                        v-on:click="money+= clickValue"
+                        v-on:click="onAddMoneyClick()"
                         )
 
         #shop-area
@@ -79,7 +79,7 @@
 import ShopHeader from "./ShopHeader.vue";
 import ShopItem from "./ShopItem.vue";
 import UpgradeItem from "./UpgradeItem.vue";
-import TweenNum from "vue-tween-number";
+import MultiNumTweener from "./MultiNumberTweener.vue";
 
 
 // Classes
@@ -111,10 +111,10 @@ export default {
             gameComponent: this
         });
 
-        
+        const startMoney = 100;
 
         return {
-            money: 100,
+            money: startMoney,
             level: 0,
             visibleItemNum: 1,
             items: items,
@@ -124,6 +124,7 @@ export default {
             lastTimestamp: 0,
             clickValueBase: 1,
             currentHoveredUpgrade: null,
+            displayMoney: startMoney,
         }
     },
 
@@ -136,6 +137,14 @@ export default {
     },
 
     methods: {
+        formatMoney(number) {
+            return numberAbbreviate(number, false);
+        },
+
+        onAddMoneyClick() {
+            this.money += this.clickValue;
+            this.addDisplayMoney(this.clickValue, 200);
+        },
 
         mouseOverUpgrade(upgrade) {
             this.currentHoveredUpgrade = upgrade;
@@ -147,6 +156,7 @@ export default {
 
                 if (res) {
                     this.money -= upgrade.cost;
+                    this.addDisplayMoney(-upgrade.cost, 500);
                     this.currentHoveredUpgrade = null;
                 }
             }
@@ -160,6 +170,7 @@ export default {
             const cost = item.getCurrentCost(this.buyingAmount);
             if (cost <= this.money && item.isVisible) {
                 this.money -= cost;
+                this.addDisplayMoney(-cost, 500);
                 item.add(this.buyingAmount);
             }
         },
@@ -207,6 +218,38 @@ export default {
 
         },
 
+        addDisplayMoney(money, duration = 1050) {
+            let progress = 0;
+            let startTimestamp = 0;
+            let lastTimestamp = 0;
+            const displayMoneyTick = (ts) => {
+                let tsDiff = ts - startTimestamp;
+                let newProgress = tsDiff / duration;
+                if (newProgress > 1) {
+                    newProgress = 1;
+                }
+                let progressDiff = newProgress - progress;
+                let addMoney = money * progressDiff;
+                this.displayMoney += addMoney;
+                // console.log(newProgress, addMoney);
+                progress = newProgress;
+                
+                if (newProgress < 1) {
+                    window.requestAnimationFrame(displayMoneyTick);
+                }
+            }
+
+            if (Math.abs(money) < 2) {
+                this.displayMoney += money;
+            } else {
+                window.requestAnimationFrame((ts) => {
+                    startTimestamp = ts;
+                    lastTimestamp = ts;
+                    displayMoneyTick(ts);
+                });
+            }
+        },
+
         moneyTick () {
             setTimeout(() => {
                 window.requestAnimationFrame((timestamp) => {
@@ -214,10 +257,11 @@ export default {
                     this.lastTimestamp = timestamp;
                     this.money += addMoney;
                     // console.log("tick", addMoney);
+                    this.addDisplayMoney(addMoney, 1050);
                     
                     this.moneyTick();
                 });
-            }, 150);
+            }, 1000);
             
         }
     },
@@ -232,10 +276,6 @@ export default {
             return this.upgrades.filter((upgrade) => upgrade.cost <= this.money);
 
             
-        },
-
-        displayMoney() {
-            return numberAbbreviate(Math.floor(this.money));
         },
 
         visibleItems() {
@@ -278,11 +318,19 @@ export default {
         }
     },
 
+    watch: {
+        "money": {
+            immediate: true,
+            handler(newVal) {
+                // Vue.set(this.arrayMoney, 0, newVal);
+            },
+        },
+    },
+
     components: {
         ShopHeader,
         ShopItem,
         UpgradeItem,
-        TweenNum,
     }
 }
 </script>
