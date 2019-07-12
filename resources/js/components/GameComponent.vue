@@ -79,7 +79,6 @@
 import ShopHeader from "./ShopHeader.vue";
 import ShopItem from "./ShopItem.vue";
 import UpgradeItem from "./UpgradeItem.vue";
-import MultiNumTweener from "./MultiNumberTweener.vue";
 
 
 // Classes
