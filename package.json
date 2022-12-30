@@ -18,7 +18,7 @@
         "jquery": "^3.5",
         "laravel-mix": "^4.0.7",
         "lodash": "^4.17.19",
-        "mocha": "^6.1.4",
+        "mocha": "^10.2.0",
         "popper.js": "^1.12",
         "pug": "^2.0.3",
         "pug-plain-loader": "^1.0.0",
